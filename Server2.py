@@ -16,8 +16,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         while True:
             self.data = self.request.recv(1024).strip()
             if not self.data:
-                print("exit")
-                break
+                exit()
             # print("{} wrote:".format(self.client_address[1]))
             print("{} wrote:".format(self.client_address[0]))
             # received = self.data.decode("utf-8")
@@ -80,4 +79,6 @@ if __name__ == "__main__":
         # Activate the server; this will keep running until you
         # interrupt the program with Ctrl-C
         serversocket.serve_forever()
+
+    def exit():
         serversocket.server_close()
