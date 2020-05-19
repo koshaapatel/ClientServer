@@ -2,6 +2,8 @@ import socketserver
 import re
 import json
 
+
+
 class MyTCPHandler(socketserver.BaseRequestHandler):
     # The request handler class for our server.It is instantiated once per connection to the server, and must override the handle() method to implement communication to the client.
     def handle(self):
