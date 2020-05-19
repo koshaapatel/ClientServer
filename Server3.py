@@ -34,6 +34,16 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
                 elif(x=="2"):
                     print("2")
+                    print("Received: {}".format(received))
+                    lookupname = loaded_json[x]
+                    for custdata in database.customer:
+                        if (custdata == lookupname):
+                            # alldata=database.customer[custdata]
+                            forwarddata[custdata] = database.customer[custdata]
+                            forwarddata = json.dumps(forwarddata)
+                            self.request.sendall(bytes("1\n" + forwarddata, "utf-8"))
+                            print("Sent:     {}".format(forwarddata))
+                    self.request.sendall(bytes("0\n", "utf-8"))
                 elif (x == "3"):
                     print("3")
                 elif (x == "4"):

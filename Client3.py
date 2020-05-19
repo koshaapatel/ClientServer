@@ -9,9 +9,13 @@ if __name__ == '__main__':
         print(
             "Python DB Menu\n1. Find customer\n2. Add customer\n3. Delete customer\n4. Update customer age\n5. Update customer address\n6. Update customer phone\n7. Print report\n8. Exit")
 
-
-    #def printcustomerdata(printdata):
-
+    def printcustomerdata(printdata):
+        loaded_json = json.loads(printdata)
+        print("Name        Age      Address               Telephone Number")
+        print("----        ----     -------               ----------------")
+        for x in loaded_json:
+            list = loaded_json[x]
+            print("%s" % (x), "       %s" % (list[0]), "       %s" % (list[1]), "        %s" % (list[2]))
 
     def performaction():
         printmenu()
@@ -30,25 +34,33 @@ if __name__ == '__main__':
                     dispatchreceived=received.split("\n")
 
                     if(dispatchreceived[0]=="1"):
-                        loaded_json = json.loads(dispatchreceived[1])
-                        print("Name        Age      Address               Telephone Number")
-                        print("----        ----     -------               ----------------")
-                        for x in loaded_json:
-                            list=loaded_json[x]
-                            print("%s" %(x),"       %s" %(list[0]),"       %s" %(list[1]),"        %s" %(list[2]))
-                        #print("Received: {}".format(dispatchreceived[1]))
+                        printdata(dispatchreceived[1])
                     elif(dispatchreceived[0]=="0"):
                         print("Customer not found")
 
                     printmenu()
                     choice = int(input("Choice -> "))
                 if (choice == 2):
-                    message = input(" -> ")
-                    clientsocket.sendall(bytes(message + "\n", "utf-8"))
-                    print("Sent:     {}".format(message))
+                    name = input("Enter name you want to search -> ")
+                    jsondata = {"2": " ".join(name.lower().split())}
+                    record = json.dumps(jsondata)
+                    # clientsocket.sendall(bytes(jsondata, "utf-8"))
+                    clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
                     # Receive data from the server and shut down
                     received = str(clientsocket.recv(1024), "utf-8")
-                    print("Received: {}".format(received))
+                    dispatchreceived = received.split("\n")
+
+                    if (dispatchreceived[0] == "1"):
+                        loaded_json = json.loads(dispatchreceived[1])
+                        print("Name        Age      Address               Telephone Number")
+                        print("----        ----     -------               ----------------")
+                        for x in loaded_json:
+                            list = loaded_json[x]
+                            print("%s" % (x), "       %s" % (list[0]), "       %s" % (list[1]),
+                                  "        %s" % (list[2]))
+                        # print("Received: {}".format(dispatchreceived[1]))
+                    elif (dispatchreceived[0] == "0"):
+                        print("Customer not found")
                     printmenu()
                     choice = int(input("Choice -> "))
                 if (choice == 3):
