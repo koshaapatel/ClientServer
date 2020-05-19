@@ -23,7 +23,9 @@ if __name__ == '__main__':
     def performaction():
         printmenu()
         choice = int(input("Choice -> "))
+
         while choice != 8:
+            dispatchreceived = []
             if (choice > 0 and choice < 8):
                 if (choice == 1):
                     while True:
@@ -39,11 +41,13 @@ if __name__ == '__main__':
 
                             if (dispatchreceived[0] == "1"):
                                 printcustomerdata(dispatchreceived[1])
+                                break
                             elif (dispatchreceived[0] == "0"):
                                 print("Customer not found")
-                            break
+                                break
                         else:
                             print("Invalid name")
+                            break
                     printmenu()
                     choice = int(input("Choice -> "))
 
@@ -74,7 +78,6 @@ if __name__ == '__main__':
 
                     # Receive data from the server and shut down
                     received = str(clientsocket.recv(1024), "utf-8")
-                    dispatchreceived=""
                     dispatchreceived = received.split("\n")
 
                     if (dispatchreceived[0] == "1"):

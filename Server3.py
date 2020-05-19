@@ -5,14 +5,15 @@ import json
 class MyTCPHandler(socketserver.BaseRequestHandler):
     # The request handler class for our server.It is instantiated once per connection to the server, and must override the handle() method to implement communication to the client.
     def handle(self):
-        # print(database.customer.keys()) # print(database.customer.values()) # self.request is the TCP socket connected to the client
+        print(database.customer.keys())
+        print(database.customer.values())
         while True:
             self.data = self.request.recv(1024)
             if not self.data:
                 print("client is gone")
                 break
             # print("{} wrote:".format(self.client_address[0])) # print("{} wrote:".format(self.client_address[1])) # received = self.data.decode("utf-8")
-            print("BABA")
+            print("while true")
             print(self.data) #data in byte
             loaded_json = json.loads(self.data)
             forwarddata = {}
@@ -105,7 +106,6 @@ if __name__ == "__main__":
     with socketserver.TCPServer((HOST, PORT), MyTCPHandler) as serversocket:
         # Activate the server; this will keep running until you # interrupt the program with Ctrl-C
         serversocket.serve_forever()
-
 
     def exit():
         serversocket.server_close()
