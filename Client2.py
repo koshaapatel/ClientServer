@@ -1,5 +1,4 @@
 import socket
-import json
 import sys
 
 if __name__ == '__main__':
@@ -35,9 +34,6 @@ if __name__ == '__main__':
                     printmenu()
                     choice = int(input("Choice -> "))
                 if (choice == 3):
-                    m = '{"id": 2, "name": "abc"}'
-                    data = json.dumps(m)
-                    clientsocket.sendall(bytes(data + "\n", "utf-8"))
                     printmenu()
                     choice = int(input("Choice -> "))
                 if (choice == 4):
@@ -61,5 +57,7 @@ if __name__ == '__main__':
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as clientsocket:
         # Connect to server and send data
         clientsocket.connect((HOST, PORT))
+
         performaction()
+
         clientsocket.close()
