@@ -5,11 +5,9 @@ import re
 if __name__ == '__main__':
     HOST, PORT = "localhost", 9999
 
-
     def printmenu():
         print(
             "Python DB Menu\n1. Find customer\n2. Add customer\n3. Delete customer\n4. Update customer age\n5. Update customer address\n6. Update customer phone\n7. Print report\n8. Exit")
-
 
     def printcustomerdata(printdata):
         loaded_json = json.loads(printdata)
@@ -18,7 +16,6 @@ if __name__ == '__main__':
         for x in loaded_json:
             list = loaded_json[x]
             print("%s" % (x), "       %s" % (list[0]), "       %s" % (list[1]), "        %s" % (list[2]))
-
 
     def performaction():
         printmenu()

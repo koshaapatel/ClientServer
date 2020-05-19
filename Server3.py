@@ -24,6 +24,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                 if (x == "1"):
                     print("Received: {}".format(received))
                     lookupname = loaded_json[x]
+                    flag=0 #not found
                     for custdata in database.customer:
                         if (custdata == lookupname):
                             # alldata=database.customer[custdata]
@@ -31,22 +32,31 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             forwarddata = json.dumps(forwarddata)
                             self.request.sendall(bytes("1\n" + forwarddata, "utf-8"))
                             print("Sent:     {}".format(forwarddata))
-                    self.request.sendall(bytes("0", "utf-8"))
+                            flag=1
+                            break
+                    if(flag==0):
+                        self.request.sendall(bytes("0", "utf-8"))
 
                 elif (x == "2"):
+                    flag = 1#we added customer
                     #print("Received: {}".format(received))
                     loaded = loaded_json[x] #json
                     for key in loaded:
                         for custdata in database.customer:
                             if (key == custdata):
-                                self.request.sendall(bytes("0", "utf-8"))
+                                flag=0
                                 break
-                    database.customer[key]=loaded[key]
-                    forwarddata[key] = database.customer[key]
-                    forwarddata = json.dumps(forwarddata)
-                    self.request.sendall(bytes("1\n" + forwarddata, "utf-8"))
-                    print(database.customer)
-                    print("Sent:     {}".format(forwarddata))
+                        if(flag==0):
+                            self.request.sendall(bytes("0", "utf-8"))
+                        else:
+                            database.customer[key]=loaded[key]
+                            forwarddata[key] = database.customer[key]
+                            forwarddata = json.dumps(forwarddata)
+                            self.request.sendall(bytes("1\n" + forwarddata, "utf-8"))
+                            print(database.customer)
+                            print("Sent:     {}".format(forwarddata))
+                            print(database.customer.keys())
+                            print(database.customer.values())
 
                 elif (x == "3"):
                     print("3")
