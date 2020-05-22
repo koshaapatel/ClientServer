@@ -2,7 +2,6 @@ import socketserver
 import re
 import json
 
-
 class MyTCPHandler(socketserver.BaseRequestHandler):
     # The request handler class for our server.It is instantiated once per connection to the server, and must override the handle() method to implement communication to the client.
     def handle(self):
@@ -60,7 +59,21 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             print(database.customer.values())
 
                 elif (x == "3"):
-                    print("3")
+                    print("Received: {}".format(received))
+                    lookupname = loaded_json[x]
+                    flag = 0  # not found
+                    for custdata in database.customer:
+                        if (custdata == lookupname):
+                            del database.customer[custdata]
+                            forwarddata = database.customer
+                            forwarddata = json.dumps(forwarddata, sort_keys=True)
+                            self.request.sendall(bytes("1\n" + forwarddata, "utf-8"))
+                            print("Sent:     {}".format(forwarddata))
+                            flag = 1
+                            break
+                    if (flag == 0):
+                        self.request.sendall(bytes("0", "utf-8"))
+
                 elif (x == "4"):
                     print("4")
                 elif (x == "5"):

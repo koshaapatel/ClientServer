@@ -2,9 +2,6 @@ import socket
 import json
 import re
 
-
-
-
 if __name__ == '__main__':
     HOST, PORT = "localhost", 9999
 
@@ -89,13 +86,28 @@ if __name__ == '__main__':
                     printmenu()
                     choice = int(input("Choice -> "))
                 if (choice == 3):
-                    m = {"id": "2", "name": ""}  # a real dict.
-                    data = json.dumps(m)
-                    clientsocket.sendall(bytes(data, "utf-8"))
-                    print("Sent:     {}".format(data))
-                    # Receive data from the server and shut down
-                    received = str(clientsocket.recv(1024), "utf-8")
-                    print("Received: {}".format(received))
+                    while True:
+                        name = input("Enter name you want to delete -> ")
+                        if (re.findall("[a-z]", " ".join(name.lower().split())) and name != ''):
+                            jsondata = {"3": " ".join(name.lower().split())}
+                            record = json.dumps(jsondata)
+                            # clientsocket.sendall(bytes(jsondata, "utf-8"))
+                            clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
+
+                            received = str(clientsocket.recv(1024), "utf-8")
+                            dispatchreceived = received.split("\n")
+                            if (dispatchreceived[0] == "1"):
+                                print("Printing report:")
+                                printcustomerdata(dispatchreceived[1])
+                                break
+                            elif(dispatchreceived[1]=="0"):
+                                print("Customer doesn't exist therefore, we can't delete customer")
+                                break
+
+                        else:
+                            print("Invalid name")
+                            break
+
                     printmenu()
                     choice = int(input("Choice -> "))
                 if (choice == 4):
@@ -129,7 +141,6 @@ if __name__ == '__main__':
                 print("You entered invalid value. Please enter valid option.")
                 printmenu()
                 choice = int(input("Choice -> "))
-
 
     # Create a socket (SOCK_STREAM means a TCP socket)
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as clientsocket:
