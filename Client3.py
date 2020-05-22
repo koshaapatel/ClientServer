@@ -108,6 +108,17 @@ if __name__ == '__main__':
                     printmenu()
                     choice = int(input("Choice -> "))
                 if (choice == 7):
+                    jsondata = {"7": "print report"}
+                    record = json.dumps(jsondata)
+                    clientsocket.sendall(bytes(record, "utf-8"))
+                    print("Sent:     {}".format(record))
+
+                    received = str(clientsocket.recv(1024), "utf-8")
+                    dispatchreceived = received.split("\n")
+                    if (dispatchreceived[0] == "1"):
+                        print("Printing report:")
+                        printcustomerdata(dispatchreceived[1])
+
                     printmenu()
                     choice = int(input("Choice -> "))
             elif (choice >= 9 or choice <= 0):

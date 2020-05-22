@@ -3,7 +3,6 @@ import re
 import json
 
 
-
 class MyTCPHandler(socketserver.BaseRequestHandler):
     # The request handler class for our server.It is instantiated once per connection to the server, and must override the handle() method to implement communication to the client.
     def handle(self):
@@ -70,7 +69,14 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                     print("6")
                 elif (x == "7"):
                     print("7")
-
+                    flag = 1
+                    print("Received: {}".format(received))
+                    forwarddata=database.customer
+                    forwarddata = json.dumps(forwarddata,sort_keys=True)
+                    self.request.sendall(bytes("1\n" + forwarddata, "utf-8"))
+                    print("Sent:     {}".format(forwarddata))
+                    print(database.customer.keys())
+                    print(database.customer.values())
 
 class SingletonDatabase(object):
     _instance = None
