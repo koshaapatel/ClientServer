@@ -120,45 +120,55 @@ if __name__ == '__main__':
 
                     received = str(clientsocket.recv(1024), "utf-8")
                     dispatchreceived = received.split("\n")
-                    if (dispatchreceived[0] == "1"):
+                    if (dispatchreceived[0] == "report"):
                         print("Printing report:")
                         printcustomerdata(dispatchreceived[1])
-                        break
-                    elif (dispatchreceived[1] == "0"):
-                        print("Customer doesn't exist therefore, we can't update customer's age")
-                        break
-
+                    elif (dispatchreceived[0] == "0"):
+                        print("No values to display")
 
                     while True:
-                        name = input("Enter name for which you want to update age -> ")
+                        name = input("Enter name -> ")
                         if (re.findall("[a-z]", " ".join(name.lower().split())) and name != ''):
-                            while True:
-                                age = input("Enter age -> ")
-                                if (re.findall("[0-9]", " ".join(age.lower().split())) or age == ''):
-                                    break
-                                else:
-                                    print("Invalid age")
-
-
-
-
-                            jsondata = {"4": " ".join(name.lower().split())}
-                            record = json.dumps(jsondata)
-                            clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
-
-                            received = str(clientsocket.recv(1024), "utf-8") #must check from here
-                            dispatchreceived = received.split("\n")
-                            if (dispatchreceived[0] == "1"):
-                                print("Printing report:")
-                                printcustomerdata(dispatchreceived[1])
-                                break
-                            elif(dispatchreceived[1]=="0"):
-                                print("Customer doesn't exist therefore, we can't update customer's age")
-                                break
-
+                            break
                         else:
                             print("Invalid name")
-                            break
+                    jsondata = {"4": " ".join(name.lower().split())}
+                    record = json.dumps(jsondata)
+                    # clientsocket.sendall(bytes(jsondata, "utf-8"))
+                    clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
+
+                    received = str(clientsocket.recv(1024), "utf-8")
+                    print("received",received)
+
+
+
+                    # while True:
+                    #     name = input("Enter name for which you want to update age -> ")
+                    #     if (re.findall("[a-z]", " ".join(name.lower().split())) and name != ''):
+                    #         while True:
+                    #             age = input("Enter age -> ")
+                    #             if (re.findall("[0-9]", " ".join(age.lower().split())) or age == ''):
+                    #                 break
+                    #             else:
+                    #                 print("Invalid age")
+                    #
+                    #         jsondata = {"4": " ".join(name.lower().split())}
+                    #         record = json.dumps(jsondata)
+                    #         clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
+                    #
+                    #         received = str(clientsocket.recv(1024), "utf-8") #must check from here
+                    #         dispatchreceived = received.split("\n")
+                    #         if (dispatchreceived[0] == "1"):
+                    #             print("Printing report:")
+                    #             printcustomerdata(dispatchreceived[1])
+                    #             break
+                    #         elif(dispatchreceived[1]=="0"):
+                    #             print("Customer doesn't exist therefore, we can't update customer's age")
+                    #             break
+                    #
+                    #     else:
+                    #         print("Invalid name")
+                    #         break
 
                     printmenu()
                     choice = int(input("Choice -> "))

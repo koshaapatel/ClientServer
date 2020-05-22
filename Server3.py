@@ -76,31 +76,27 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         self.request.sendall(bytes("0\n", "utf-8"))
 
                 elif (x == "4"):
-                    flagR = 1
+                    flagR = 0
                     print("Received: {}".format(received))
-                    forwarddata = database.customer
-                    forwarddata = json.dumps(forwarddata, sort_keys=True)
-                    self.request.sendall(bytes("report\n" + forwarddata, "utf-8"))
 
-
-                    print("Sent:     {}".format(forwarddata))
-                    print(database.customer.keys())
-                    print(database.customer.values())
-
-
-                    lookupname = loaded_json[x]
-                    flag = 0  # not found
-                    for custdata in database.customer:
-                        if (custdata == lookupname):
-                            del database.customer[custdata]
+                    for key in database.customer:
+                        if(key!=''):
                             forwarddata = database.customer
                             forwarddata = json.dumps(forwarddata, sort_keys=True)
-                            self.request.sendall(bytes("1\n" + forwarddata, "utf-8"))
+                            self.request.sendall(bytes("report\n" + forwarddata, "utf-8"))
+
                             print("Sent:     {}".format(forwarddata))
-                            flag = 1
+                            flagR=1
                             break
-                    if (flag == 0):
-                        self.request.sendall(bytes("0", "utf-8"))
+                    if(flagR==0):
+                        self.request.sendall(bytes("0\n" + forwarddata, "utf-8"))
+
+                    received=self.request.recv(1024)
+                    received = str(received, "utf-8")
+                    print("received"+received)
+
+                    self.request.sendall(bytes(received, "utf-8"))
+
                 elif (x == "5"):
                     print("5")
                 elif (x == "6"):
