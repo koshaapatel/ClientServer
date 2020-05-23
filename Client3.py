@@ -22,6 +22,14 @@ if __name__ == '__main__':
             elif (x == ''):
                 print("No record to display")
 
+    def receivedata():
+        received = str(clientsocket.recv(1024), "utf-8")
+        dispatchreceived = received.split("\n")
+        if (dispatchreceived[0] == "1"):  # print("Printing report:")
+            print(dispatchreceived[1])
+            printcustomerdata(dispatchreceived[2])
+        elif (dispatchreceived[0] == "0"):
+            print(dispatchreceived[1])
 
     def performaction():
         printmenu()
@@ -79,15 +87,8 @@ if __name__ == '__main__':
                 record = json.dumps(jsondata)
                 clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
 
-                # Receive data from the server and shut down
-                received = str(clientsocket.recv(1024), "utf-8")
-                dispatchreceived = received.split("\n")
+                receivedata()
 
-                if (dispatchreceived[0] == "1"):
-                    print(dispatchreceived[1])
-                    printcustomerdata(dispatchreceived[2])
-                elif (dispatchreceived[0] == "0"):
-                    print(dispatchreceived[1])
                 printmenu()
                 select = input("Select -> ")
 
@@ -133,13 +134,7 @@ if __name__ == '__main__':
                 record = json.dumps(jsondata)
                 clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
 
-                received = str(clientsocket.recv(1024), "utf-8")
-                dispatchreceived = received.split("\n")
-                if (dispatchreceived[0] == "1"):
-                    print(dispatchreceived[1])
-                    printcustomerdata(dispatchreceived[2])
-                elif (dispatchreceived[0] == "0"):
-                    print(dispatchreceived[1])
+                receivedata()
 
                 printmenu()
                 select = input("Select -> ")
@@ -158,13 +153,7 @@ if __name__ == '__main__':
                 record = json.dumps(jsondata)
                 clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
 
-                received = str(clientsocket.recv(1024), "utf-8")
-                dispatchreceived = received.split("\n")
-                if (dispatchreceived[0] == "1"):
-                    print(dispatchreceived[1])
-                    printcustomerdata(dispatchreceived[2])
-                elif (dispatchreceived[0] == "0"):
-                    print(dispatchreceived[1])
+                receivedata()
 
                 printmenu()
                 select = input("Select -> ")
@@ -183,14 +172,8 @@ if __name__ == '__main__':
                 record = json.dumps(jsondata)
                 clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
 
-                received = str(clientsocket.recv(1024), "utf-8")
-                dispatchreceived = received.split("\n")
-                if (dispatchreceived[0] == "1"):
-                    print(dispatchreceived[1])
-                    printcustomerdata(dispatchreceived[2])
+                receivedata()
 
-                elif (dispatchreceived[0] == "0"):
-                    print(dispatchreceived[1])
                 printmenu()
                 select = input("Select -> ")
             elif (select == "7"):
@@ -198,13 +181,7 @@ if __name__ == '__main__':
                 record = json.dumps(jsondata)
                 clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
 
-                received = str(clientsocket.recv(1024), "utf-8")
-                dispatchreceived = received.split("\n")
-                if (dispatchreceived[0] == "1"):  # print("Printing report:")
-                    print(dispatchreceived[1])
-                    printcustomerdata(dispatchreceived[2])
-                elif (dispatchreceived[0] == "0"):
-                    print(dispatchreceived[1])
+                receivedata()
 
                 printmenu()
                 select = input("Select -> ")
@@ -214,7 +191,6 @@ if __name__ == '__main__':
                 select = input("Select -> ")
         if (select == "8"):
             print("Good bye")
-
 
 # Create a socket (SOCK_STREAM means a TCP socket)
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as clientsocket:
