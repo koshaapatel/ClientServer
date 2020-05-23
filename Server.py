@@ -2,6 +2,7 @@ import socketserver
 import re
 import json
 
+
 class MyTCPHandler(socketserver.BaseRequestHandler):
     def senddata(self):
         flag = 0
@@ -40,7 +41,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             forwarddata[custdata] = database.customer[custdata]
                             forwarddata = json.dumps(forwarddata)
                             self.request.sendall(
-                                bytes("1\nFollowing is the customer record found:\n" + forwarddata, "utf-8"))  # print("Sent:     {}".format(forwarddata))
+                                bytes("1\nFollowing is the customer record found:\n" + forwarddata,
+                                      "utf-8"))  # print("Sent:     {}".format(forwarddata))
                             flag = 1
                             break
                     if (flag == 0):
@@ -49,7 +51,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                 elif (x == "2"):
                     flag = 1  # we added customer
                     # print("Received: {}".format(received))
-                    loaded = loaded_json[x]  # json
+                    loaded = loaded_json[x]  # json key
                     for key in loaded:
                         for custdata in database.customer:
                             if (key == custdata):
@@ -58,11 +60,19 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         if (flag == 0):
                             self.request.sendall(bytes("0\nCustomer already exists", "utf-8"))
                         else:
-                            database.customer[key] = loaded[key]
+                            values = loaded[key]
+                            if not values[0]:
+                                values[0] = None
+                            if not values[1]:
+                                values[1] = None
+                            if not values[2]:
+                                values[2] = None
+                            database.customer[key] = values
                             forwarddata[key] = database.customer[key]
                             forwarddata = json.dumps(forwarddata)
                             self.request.sendall(
-                                bytes("1\nCustomer is added as below\n" + forwarddata, "utf-8"))  # print("Sent:     {}".format(forwarddata))
+                                bytes("1\nCustomer is added as below\n" + forwarddata,
+                                      "utf-8"))  # print("Sent:     {}".format(forwarddata))
 
                 elif (x == "3"):  # print("Received: {}".format(received))
                     lookupname = loaded_json[x]
@@ -77,7 +87,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             flag = 1
                             break
                     if (flag == 0):
-                        self.request.sendall(bytes("0\nCustomer doesn't exist therefore, we can't delete customer", "utf-8"))
+                        self.request.sendall(
+                            bytes("0\nCustomer doesn't exist therefore, we can't delete customer", "utf-8"))
 
                 elif (x == "4"):  # print("Received: {}".format(received))
                     lookupnameage = loaded_json[x]
@@ -86,16 +97,25 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         if (custdata == lookupnameage[0]):
                             # for keys in database.customer:
                             values = database.customer[custdata]
-                            values[0] = lookupnameage[1]
-                            database.customer[custdata] = values
-                            forwarddata = database.customer
-                            forwarddata = json.dumps(forwarddata, sort_keys=True)
-                            self.request.sendall(
-                                bytes("1\nCustomer's age is updated\n" + forwarddata, "utf-8"))  # print("Sent:     {}".format(forwarddata))
-                            flag = 1
-                            break
-                    if (flag == 0):
-                        self.request.sendall(bytes("0\nCustomer doesn't exist therefore, we can't update customer's age", "utf-8"))
+                            if lookupnameage[1] == "":
+                                values[0] = None
+                                database.customer[custdata] = values
+                                flag = 1
+                                break
+                            else:
+                                values[0] = lookupnameage[1]
+                                database.customer[custdata] = values
+                                flag = 1
+                                break
+                    if (flag == 1):
+                        forwarddata = database.customer
+                        forwarddata = json.dumps(forwarddata, sort_keys=True)
+                        self.request.sendall(
+                            bytes("1\nCustomer's age is updated\n" + forwarddata,
+                                  "utf-8"))  # print("Sent:     {}".format(forwarddata))
+                    elif (flag == 0):
+                        self.request.sendall(
+                            bytes("0\nCustomer doesn't exist therefore, we can't update customer's age", "utf-8"))
 
                 elif (x == "5"):  # print("Received: {}".format(received))
                     lookupnameaddress = loaded_json[x]
@@ -104,16 +124,25 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         if (custdata == lookupnameaddress[0]):
                             # for keys in database.customer:
                             values = database.customer[custdata]
-                            values[1] = lookupnameaddress[1]
-                            database.customer[custdata] = values
-                            forwarddata = database.customer
-                            forwarddata = json.dumps(forwarddata, sort_keys=True)
-                            self.request.sendall(
-                                bytes("1\nCustomer's address is updated\n" + forwarddata, "utf-8"))  # print("Sent:     {}".format(forwarddata))
-                            flag = 1
-                            break
-                    if (flag == 0):
-                        self.request.sendall(bytes("0\nCustomer doesn't exist therefore, we can't update customer's address", "utf-8"))
+                            if lookupnameaddress[1] == "":
+                                values[1] = None
+                                database.customer[custdata] = values
+                                flag = 1
+                                break
+                            else:
+                                values[1] = lookupnameaddress[1]
+                                database.customer[custdata] = values
+                                flag = 1
+                                break
+                    if (flag == 1):
+                        forwarddata = database.customer
+                        forwarddata = json.dumps(forwarddata, sort_keys=True)
+                        self.request.sendall(
+                            bytes("1\nCustomer's address is updated\n" + forwarddata,
+                                  "utf-8"))  # print("Sent:     {}".format(forwarddata))
+                    elif (flag == 0):
+                        self.request.sendall(
+                            bytes("0\nCustomer doesn't exist therefore, we can't update customer's address", "utf-8"))
 
                 elif (x == "6"):  # print("Received: {}".format(received))
                     lookupnametelephone = loaded_json[x]
@@ -122,19 +151,30 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         if (custdata == lookupnametelephone[0]):
                             # for keys in database.customer:
                             values = database.customer[custdata]
-                            values[2] = lookupnametelephone[1]
-                            database.customer[custdata] = values
-                            forwarddata = database.customer
-                            forwarddata = json.dumps(forwarddata, sort_keys=True)
-                            self.request.sendall(
-                                bytes("1\nCustomer's telephone number is updated\n" + forwarddata, "utf-8"))  # print("Sent:     {}".format(forwarddata))
-                            flag = 1
-                            break
-                    if (flag == 0):
-                        self.request.sendall(bytes("0\nCustomer doesn't exist therefore, we can't update customer's telephone number", "utf-8"))
+                            if lookupnametelephone[1] == "":
+                                values[2] = None
+                                database.customer[custdata] = values
+                                flag = 1
+                                break
+                            else:
+                                values[2] = lookupnametelephone[1]
+                                database.customer[custdata] = values
+                                flag = 1
+                                break
+                    if(flag==1):
+                        forwarddata = database.customer
+                        forwarddata = json.dumps(forwarddata, sort_keys=True)
+                        self.request.sendall(
+                                bytes("1\nCustomer's telephone number is updated\n" + forwarddata,
+                                      "utf-8"))  # print("Sent:     {}".format(forwarddata))
+                    elif (flag == 0):
+                        self.request.sendall(
+                            bytes("0\nCustomer doesn't exist therefore, we can't update customer's telephone number",
+                                  "utf-8"))
 
                 elif (x == "7"):  # print("Received: {}".format(received))
                     self.senddata()
+
 
 class SingletonDatabase(object):
     _instance = None
@@ -156,16 +196,32 @@ class SingletonDatabase(object):
             if not line:
                 break
             tempdata = line.split("|")
-
+            customerdata = []
             if (re.findall("[a-z]", " ".join(tempdata[0].lower().split())) and tempdata[
                 0] != ''):
-                customerdata = [" ".join(tempdata[1].lower().split()), " ".join(tempdata[2].lower().split()),
-                                " ".join(tempdata[3].lower().split())]
+                if not tempdata[1]:
+                    customerdata.append(None)
+                else:
+                    customerdata.append(" ".join(tempdata[1].lower().split()))
+
+                if not tempdata[2]:
+                    customerdata.append(None)
+                else:
+                    customerdata.append(" ".join(tempdata[2].lower().split()))
+
+                if not tempdata[3] or tempdata[3] == '\n':
+                    customerdata.append(None)
+                else:
+                    customerdata.append(" ".join(tempdata[3].lower().split()))
+
+                # customerdata = [" ".join(tempdata[1].lower().split()), " ".join(tempdata[2].lower().split()),
+                #                 " ".join(tempdata[3].lower().split())]
                 self.customer[" ".join(tempdata[0].lower().split())] = customerdata
 
             elif (tempdata[0] == ''):
                 print("Database record is skipped")
         file1.close()
+
 
 if __name__ == "__main__":
     HOST, PORT = "localhost", 9999
@@ -176,6 +232,7 @@ if __name__ == "__main__":
     with socketserver.TCPServer((HOST, PORT), MyTCPHandler) as serversocket:
         # Activate the server; this will keep running until you # interrupt the program with Ctrl-C
         serversocket.serve_forever()
+
 
     def exit():
         serversocket.server_close()
