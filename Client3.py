@@ -7,7 +7,7 @@ if __name__ == '__main__':
 
     def printmenu():
         print(
-            "Python DB Menu\n1. Find customer\n2. Add customer\n3. Delete customer\n4. Update customer age\n5. Update customer address\n6. Update customer phone\n7. Print report\n8. Exit")
+            "\nPython DB Menu\n1. Find customer\n2. Add customer\n3. Delete customer\n4. Update customer age\n5. Update customer address\n6. Update customer phone\n7. Print report\n8. Exit")
 
     def printcustomerdata(printdata):
         loaded_json = json.loads(printdata)
@@ -66,7 +66,7 @@ if __name__ == '__main__':
                         else:
                             print("Invalid age")
                     address = input("Enter address -> ")
-                    telephone = input("Enter telephone -> ")
+                    telephone = input("Enter telephone number -> ")
                     tempdata=[" ".join(age.lower().split())," ".join(address.lower().split())," ".join(telephone.lower().split())]
                     print("TEMPDATA",tempdata)
 
@@ -113,69 +113,84 @@ if __name__ == '__main__':
                     printmenu()
                     choice = int(input("Choice -> "))
                 if (choice == 4):
-                    jsondata = {"4": "print report"}
-                    record = json.dumps(jsondata)
-                    # clientsocket.sendall(bytes(jsondata, "utf-8"))
-                    clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
-
-                    received = str(clientsocket.recv(1024), "utf-8")
-                    dispatchreceived = received.split("\n")
-                    if (dispatchreceived[0] == "report"):
-                        print("Printing report:")
-                        printcustomerdata(dispatchreceived[1])
-                    elif (dispatchreceived[0] == "0"):
-                        print("No values to display")
-
                     while True:
                         name = input("Enter name -> ")
                         if (re.findall("[a-z]", " ".join(name.lower().split())) and name != ''):
                             break
                         else:
                             print("Invalid name")
-                    jsondata = {"4": " ".join(name.lower().split())}
+                    while True:
+                        age = input("Enter age -> ")
+                        if (re.findall("[0-9]", " ".join(age.lower().split())) or age==''):
+                            break
+                        else:
+                            print("Invalid age")
+                    nameage=[" ".join(name.lower().split())," ".join(age.lower().split())]
+
+                    jsondata = {"4": nameage}
                     record = json.dumps(jsondata)
-                    # clientsocket.sendall(bytes(jsondata, "utf-8"))
                     clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
 
                     received = str(clientsocket.recv(1024), "utf-8")
-                    print("received",received)
+                    dispatchreceived = received.split("\n")
+                    if (dispatchreceived[0] == "1"):
+                        print("Printing report:")
+                        printcustomerdata(dispatchreceived[1])
 
-
-
-                    # while True:
-                    #     name = input("Enter name for which you want to update age -> ")
-                    #     if (re.findall("[a-z]", " ".join(name.lower().split())) and name != ''):
-                    #         while True:
-                    #             age = input("Enter age -> ")
-                    #             if (re.findall("[0-9]", " ".join(age.lower().split())) or age == ''):
-                    #                 break
-                    #             else:
-                    #                 print("Invalid age")
-                    #
-                    #         jsondata = {"4": " ".join(name.lower().split())}
-                    #         record = json.dumps(jsondata)
-                    #         clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
-                    #
-                    #         received = str(clientsocket.recv(1024), "utf-8") #must check from here
-                    #         dispatchreceived = received.split("\n")
-                    #         if (dispatchreceived[0] == "1"):
-                    #             print("Printing report:")
-                    #             printcustomerdata(dispatchreceived[1])
-                    #             break
-                    #         elif(dispatchreceived[1]=="0"):
-                    #             print("Customer doesn't exist therefore, we can't update customer's age")
-                    #             break
-                    #
-                    #     else:
-                    #         print("Invalid name")
-                    #         break
+                    elif (dispatchreceived[0] == "0"):
+                        print("Customer doesn't exist therefore, we can't update customer's age")
 
                     printmenu()
                     choice = int(input("Choice -> "))
                 if (choice == 5):
+                    while True:
+                        name = input("Enter name -> ")
+                        if (re.findall("[a-z]", " ".join(name.lower().split())) and name != ''):
+                            break
+                        else:
+                            print("Invalid name")
+
+                    address = input("Enter address -> ")
+                    nameaddress=[" ".join(name.lower().split())," ".join(address.lower().split())]
+
+                    jsondata = {"5": nameaddress}
+                    record = json.dumps(jsondata)
+                    clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
+
+                    received = str(clientsocket.recv(1024), "utf-8")
+                    dispatchreceived = received.split("\n")
+                    if (dispatchreceived[0] == "1"):
+                        print("Printing report:")
+                        printcustomerdata(dispatchreceived[1])
+
+                    elif (dispatchreceived[0] == "0"):
+                        print("Customer doesn't exist therefore, we can't update customer's address")
+
                     printmenu()
                     choice = int(input("Choice -> "))
                 if (choice == 6):
+                    while True:
+                        name = input("Enter name -> ")
+                        if (re.findall("[a-z]", " ".join(name.lower().split())) and name != ''):
+                            break
+                        else:
+                            print("Invalid name")
+
+                    telephone = input("Enter telephone number number-> ")
+                    nametelephone=[" ".join(name.lower().split())," ".join(telephone.lower().split())]
+
+                    jsondata = {"6": nametelephone}
+                    record = json.dumps(jsondata)
+                    clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
+
+                    received = str(clientsocket.recv(1024), "utf-8")
+                    dispatchreceived = received.split("\n")
+                    if (dispatchreceived[0] == "1"):
+                        print("Printing report:")
+                        printcustomerdata(dispatchreceived[1])
+
+                    elif (dispatchreceived[0] == "0"):
+                        print("Customer doesn't exist therefore, we can't update customer's telephone number")
                     printmenu()
                     choice = int(input("Choice -> "))
                 if (choice == 7):

@@ -76,31 +76,66 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         self.request.sendall(bytes("0\n", "utf-8"))
 
                 elif (x == "4"):
-                    flagR = 0
                     print("Received: {}".format(received))
-
-                    for key in database.customer:
-                        if(key!=''):
+                    lookupnameage = loaded_json[x]
+                    flag = 0  # not found
+                    for custdata in database.customer:
+                        if (custdata == lookupnameage[0]):
+                            #for keys in database.customer:
+                            values=database.customer[custdata]
+                            print(values)
+                            values[0]=lookupnameage[1]
+                            database.customer[custdata]=values
                             forwarddata = database.customer
                             forwarddata = json.dumps(forwarddata, sort_keys=True)
-                            self.request.sendall(bytes("report\n" + forwarddata, "utf-8"))
-
+                            self.request.sendall(bytes("1\n" + forwarddata, "utf-8"))
                             print("Sent:     {}".format(forwarddata))
-                            flagR=1
+                            flag=1
                             break
-                    if(flagR==0):
-                        self.request.sendall(bytes("0\n" + forwarddata, "utf-8"))
-
-                    received=self.request.recv(1024)
-                    received = str(received, "utf-8")
-                    print("received"+received)
-
-                    self.request.sendall(bytes(received, "utf-8"))
+                    if (flag == 0):
+                        print("none updating")
+                        self.request.sendall(bytes("0\n", "utf-8"))
 
                 elif (x == "5"):
-                    print("5")
+                    print("Received: {}".format(received))
+                    lookupnameaddress = loaded_json[x]
+                    flag = 0  # not found
+                    for custdata in database.customer:
+                        if (custdata == lookupnameaddress[0]):
+                            # for keys in database.customer:
+                            values = database.customer[custdata]
+                            print(values)
+                            values[1] = lookupnameaddress[1]
+                            database.customer[custdata] = values
+                            forwarddata = database.customer
+                            forwarddata = json.dumps(forwarddata, sort_keys=True)
+                            self.request.sendall(bytes("1\n" + forwarddata, "utf-8"))
+                            print("Sent:     {}".format(forwarddata))
+                            flag = 1
+                            break
+                    if (flag == 0):
+                        print("none updating")
+                        self.request.sendall(bytes("0\n", "utf-8"))
                 elif (x == "6"):
-                    print("6")
+                    print("Received: {}".format(received))
+                    lookupnametelephone = loaded_json[x]
+                    flag = 0  # not found
+                    for custdata in database.customer:
+                        if (custdata == lookupnametelephone[0]):
+                            # for keys in database.customer:
+                            values = database.customer[custdata]
+                            print(values)
+                            values[2] = lookupnametelephone[1]
+                            database.customer[custdata] = values
+                            forwarddata = database.customer
+                            forwarddata = json.dumps(forwarddata, sort_keys=True)
+                            self.request.sendall(bytes("1\n" + forwarddata, "utf-8"))
+                            print("Sent:     {}".format(forwarddata))
+                            flag = 1
+                            break
+                    if (flag == 0):
+                        print("none updating")
+                        self.request.sendall(bytes("0\n", "utf-8"))
                 elif (x == "7"):
                     print("Received: {}".format(received))
                     flag = 0

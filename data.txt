@@ -1,5 +1,5 @@
 John|43|123 Apple street|514 428-3452
-  Katya bella| 26|  49       Queen Mary Road|  514 234-7654
+  Kat   Peterson  | 26|  49       Queen Mary Road|  514 234-7654
 Ahmad|91|1888 Pepper Lane|
 |23|2250 Rue Guy|438 866-3588
 John|43|123 Apple street|514 428-3452
