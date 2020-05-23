@@ -171,7 +171,7 @@ class SingletonDatabase(object):
             if not line:
                 break
             tempdata = line.split("|")
-
+            print(tempdata)
             if (re.findall("[a-z]", " ".join(tempdata[0].lower().split())) and tempdata[
                 0] != ''):
                 customerdata = [" ".join(tempdata[1].lower().split()), " ".join(tempdata[2].lower().split()),
@@ -191,7 +191,6 @@ if __name__ == "__main__":
     with socketserver.TCPServer((HOST, PORT), MyTCPHandler) as serversocket:
         # Activate the server; this will keep running until you # interrupt the program with Ctrl-C
         serversocket.serve_forever()
-
 
     def exit():
         serversocket.server_close()
