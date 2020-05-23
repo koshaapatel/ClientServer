@@ -176,7 +176,7 @@ if __name__ == '__main__':
                     else:
                         print("Invalid name")
 
-                telephone = input("Enter telephone number number-> ")
+                telephone = input("Enter telephone number -> ")
                 nametelephone = [" ".join(name.lower().split()), " ".join(telephone.lower().split())]
 
                 jsondata = {"6": nametelephone}

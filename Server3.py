@@ -171,7 +171,6 @@ class SingletonDatabase(object):
             if not line:
                 break
             tempdata = line.split("|")
-            print(tempdata)
             if (re.findall("[a-z]", " ".join(tempdata[0].lower().split())) and tempdata[
                 0] != ''):
                 customerdata = [" ".join(tempdata[1].lower().split()), " ".join(tempdata[2].lower().split()),

@@ -12,5 +12,3 @@ mission|||123 567-7897
 sanjana|19|45 elm street|
 flora|34||
 tejal|26|12 bb street|101 101-1010
-
-
