@@ -6,3 +6,11 @@ John|43|123 Apple street|514 428-3452
 Taylor|||
 Justin|||
 Kartik|23|123 almond street|123 456-7890
+sansa|40|45 pizza street|541 321-8963
+arya|30||090 454-1230
+mission||123 567-7897
+sanjana|19|45 elm street|
+flora|34||
+tejal|26|12 bb street|101 101-1010
+
+
