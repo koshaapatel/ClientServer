@@ -17,7 +17,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             forwarddata = database.customer
             forwarddata = json.dumps(forwarddata, sort_keys=True)
             self.request.sendall(
-                bytes("0\nNo records to display" + forwarddata, "utf-8"))
+                bytes("0\nNo records to display\n" + forwarddata, "utf-8"))
 
     # The request handler class for our server. It is instantiated once per connection to the server, and must override the handle() method to implement communication to the client.
     def handle(self):  # print(database.customer.keys()) print(database.customer.values())
