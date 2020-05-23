@@ -5,11 +5,9 @@ import re
 if __name__ == '__main__':
     HOST, PORT = "localhost", 9999
 
-
     def printmenu():
         print(
             "\nPython DB Menu\n1. Find customer\n2. Add customer\n3. Delete customer\n4. Update customer age\n5. Update customer address\n6. Update customer phone\n7. Print report\n8. Exit")
-
 
     def printcustomerdata(printdata):
         loaded_json = json.loads(printdata)
@@ -28,6 +26,14 @@ if __name__ == '__main__':
         if (dispatchreceived[0] == "1"):  # print("Printing report:")
             print(dispatchreceived[1])
             printcustomerdata(dispatchreceived[2])
+        elif (dispatchreceived[0] == "0"):
+            print(dispatchreceived[1])
+
+    def printmessage():
+        received = str(clientsocket.recv(1024), "utf-8")
+        dispatchreceived = received.split("\n")
+        if (dispatchreceived[0] == "1"):  # print("Printing report:")
+            print(dispatchreceived[1])
         elif (dispatchreceived[0] == "0"):
             print(dispatchreceived[1])
 
@@ -134,7 +140,7 @@ if __name__ == '__main__':
                 record = json.dumps(jsondata)
                 clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
 
-                receivedata()
+                printmessage()
 
                 printmenu()
                 select = input("Select -> ")
@@ -153,7 +159,7 @@ if __name__ == '__main__':
                 record = json.dumps(jsondata)
                 clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
 
-                receivedata()
+                printmessage()
 
                 printmenu()
                 select = input("Select -> ")
@@ -172,7 +178,7 @@ if __name__ == '__main__':
                 record = json.dumps(jsondata)
                 clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
 
-                receivedata()
+                printmessage()
 
                 printmenu()
                 select = input("Select -> ")

@@ -2,7 +2,6 @@ import socketserver
 import re
 import json
 
-
 class MyTCPHandler(socketserver.BaseRequestHandler):
     def senddata(self):
         flag = 0
@@ -92,7 +91,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             forwarddata = database.customer
                             forwarddata = json.dumps(forwarddata, sort_keys=True)
                             self.request.sendall(
-                                bytes("1\nCustomer is updated as below\n" + forwarddata, "utf-8"))  # print("Sent:     {}".format(forwarddata))
+                                bytes("1\nCustomer's age is updated\n" + forwarddata, "utf-8"))  # print("Sent:     {}".format(forwarddata))
                             flag = 1
                             break
                     if (flag == 0):
@@ -110,7 +109,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             forwarddata = database.customer
                             forwarddata = json.dumps(forwarddata, sort_keys=True)
                             self.request.sendall(
-                                bytes("1\nCustomer is updated as below\n" + forwarddata, "utf-8"))  # print("Sent:     {}".format(forwarddata))
+                                bytes("1\nCustomer's address is updated\n" + forwarddata, "utf-8"))  # print("Sent:     {}".format(forwarddata))
                             flag = 1
                             break
                     if (flag == 0):
@@ -128,7 +127,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             forwarddata = database.customer
                             forwarddata = json.dumps(forwarddata, sort_keys=True)
                             self.request.sendall(
-                                bytes("1\nCustomer is updated as below\n" + forwarddata, "utf-8"))  # print("Sent:     {}".format(forwarddata))
+                                bytes("1\nCustomer's telephone number is updated\n" + forwarddata, "utf-8"))  # print("Sent:     {}".format(forwarddata))
                             flag = 1
                             break
                     if (flag == 0):
@@ -177,7 +176,6 @@ if __name__ == "__main__":
     with socketserver.TCPServer((HOST, PORT), MyTCPHandler) as serversocket:
         # Activate the server; this will keep running until you # interrupt the program with Ctrl-C
         serversocket.serve_forever()
-
 
     def exit():
         serversocket.server_close()
