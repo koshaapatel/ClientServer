@@ -198,5 +198,7 @@ if __name__ == '__main__':
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as clientsocket:
     # Connect to server and send data
     clientsocket.connect((HOST, PORT))
+
     performaction()
+
     clientsocket.close()
