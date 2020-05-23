@@ -65,7 +65,7 @@ if __name__ == '__main__':
                             break
                     else:
                         print("Invalid name")
-                        break
+
                 printmenu()
                 select = input("Select -> ")
 
@@ -81,6 +81,7 @@ if __name__ == '__main__':
                     age = input("Enter age -> ")
                     if (re.findall("[0-9]",
                                    " ".join(age.lower().split())) or age == ''):  # if(age.isdigit() or age==''):
+                        age=re.sub("\D", "", " ".join(age.lower().split()))
                         break
                     else:
                         print("Invalid age")
@@ -107,12 +108,7 @@ if __name__ == '__main__':
                         # clientsocket.sendall(bytes(jsondata, "utf-8"))
                         clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
 
-                        received = str(clientsocket.recv(1024), "utf-8")
-                        dispatchreceived = received.split("\n")
-                        if (dispatchreceived[0] == "1"):
-                            print(dispatchreceived[1])  # printcustomerdata(dispatchreceived[1])
-                        elif (dispatchreceived[0] == "0"):
-                            print(dispatchreceived[1])
+                        printmessage()
                         break
                     else:
                         print("Invalid name")
@@ -131,6 +127,7 @@ if __name__ == '__main__':
                     age = input("Enter age -> ")
                     if (re.findall("[0-9]",
                                    " ".join(age.lower().split())) or age == ''):  # if (age.isdigit() or age == ''):
+                        age = re.sub("\D", "", " ".join(age.lower().split()))
                         break
                     else:
                         print("Invalid age")

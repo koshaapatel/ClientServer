@@ -2,7 +2,6 @@ import socketserver
 import re
 import json
 
-
 class MyTCPHandler(socketserver.BaseRequestHandler):
     def senddata(self):
         flag = 0
@@ -12,13 +11,13 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                 forwarddata = database.customer
                 forwarddata = json.dumps(forwarddata, sort_keys=True)
                 self.request.sendall(
-                    bytes("1\nPrint Report:\n" + forwarddata, "utf-8"))  # print("Sent:     {}".format(forwarddata))
+                    bytes("1\nPrint Report:\n" + forwarddata, "utf-8"))
                 break
         if (flag == 0):
             forwarddata = database.customer
             forwarddata = json.dumps(forwarddata, sort_keys=True)
             self.request.sendall(
-                bytes("0\nNo records to display" + forwarddata, "utf-8"))  # print("Sent:     {}".format(forwarddata))
+                bytes("0\nNo records to display" + forwarddata, "utf-8"))
 
     # The request handler class for our server. It is instantiated once per connection to the server, and must override the handle() method to implement communication to the client.
     def handle(self):  # print(database.customer.keys()) print(database.customer.values())
@@ -222,7 +221,6 @@ class SingletonDatabase(object):
                 print("Database record is skipped")
         file1.close()
 
-
 if __name__ == "__main__":
     HOST, PORT = "localhost", 9999
     database = SingletonDatabase()
@@ -232,7 +230,6 @@ if __name__ == "__main__":
     with socketserver.TCPServer((HOST, PORT), MyTCPHandler) as serversocket:
         # Activate the server; this will keep running until you # interrupt the program with Ctrl-C
         serversocket.serve_forever()
-
 
     def exit():
         serversocket.server_close()
