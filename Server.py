@@ -31,8 +31,8 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             loaded_json = json.loads(self.data)
             forwarddata = {}
             for x in loaded_json:  # print("choice:%s" % (x))
-                received = str(self.data, "utf-8")  # received = received.decode("utf-8")
-                if (x == "1"):  # print("Received: {}".format(received))
+                received = str(self.data, "utf-8")
+                if (x == "1"):
                     lookupname = loaded_json[x]
                     flag = 0  # not found
                     for custdata in database.customer:
@@ -41,7 +41,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             forwarddata = json.dumps(forwarddata)
                             self.request.sendall(
                                 bytes("1\nFollowing is the customer record found:\n" + forwarddata,
-                                      "utf-8"))  # print("Sent:     {}".format(forwarddata))
+                                      "utf-8"))
                             flag = 1
                             break
                     if (flag == 0):
@@ -49,7 +49,6 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
                 elif (x == "2"):
                     flag = 1  # we added customer
-                    # print("Received: {}".format(received))
                     loaded = loaded_json[x]  # json key
                     for key in loaded:
                         for custdata in database.customer:
@@ -71,9 +70,9 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             forwarddata = json.dumps(forwarddata)
                             self.request.sendall(
                                 bytes("1\nCustomer is added as below\n" + forwarddata,
-                                      "utf-8"))  # print("Sent:     {}".format(forwarddata))
+                                      "utf-8"))
 
-                elif (x == "3"):  # print("Received: {}".format(received))
+                elif (x == "3"):
                     lookupname = loaded_json[x]
                     flag = 0  # not found
                     for custdata in database.customer:
@@ -82,14 +81,13 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                             forwarddata = database.customer
                             forwarddata = json.dumps(forwarddata, sort_keys=True)
                             self.request.sendall(bytes("1\nCustomer is deleted\n" + forwarddata, "utf-8"))
-                            # print("Sent:     {}".format(forwarddata))
                             flag = 1
                             break
                     if (flag == 0):
                         self.request.sendall(
                             bytes("0\nCustomer doesn't exist therefore, we can't delete customer", "utf-8"))
 
-                elif (x == "4"):  # print("Received: {}".format(received))
+                elif (x == "4"):
                     lookupnameage = loaded_json[x]
                     flag = 0  # not found
                     for custdata in database.customer:
@@ -111,12 +109,12 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         forwarddata = json.dumps(forwarddata, sort_keys=True)
                         self.request.sendall(
                             bytes("1\nCustomer's age is updated\n" + forwarddata,
-                                  "utf-8"))  # print("Sent:     {}".format(forwarddata))
+                                  "utf-8"))
                     elif (flag == 0):
                         self.request.sendall(
                             bytes("0\nCustomer doesn't exist therefore, we can't update customer's age", "utf-8"))
 
-                elif (x == "5"):  # print("Received: {}".format(received))
+                elif (x == "5"):
                     lookupnameaddress = loaded_json[x]
                     flag = 0  # not found
                     for custdata in database.customer:
@@ -138,12 +136,12 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         forwarddata = json.dumps(forwarddata, sort_keys=True)
                         self.request.sendall(
                             bytes("1\nCustomer's address is updated\n" + forwarddata,
-                                  "utf-8"))  # print("Sent:     {}".format(forwarddata))
+                                  "utf-8"))
                     elif (flag == 0):
                         self.request.sendall(
                             bytes("0\nCustomer doesn't exist therefore, we can't update customer's address", "utf-8"))
 
-                elif (x == "6"):  # print("Received: {}".format(received))
+                elif (x == "6"):
                     lookupnametelephone = loaded_json[x]
                     flag = 0  # not found
                     for custdata in database.customer:
@@ -165,15 +163,14 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                         forwarddata = json.dumps(forwarddata, sort_keys=True)
                         self.request.sendall(
                                 bytes("1\nCustomer's telephone number is updated\n" + forwarddata,
-                                      "utf-8"))  # print("Sent:     {}".format(forwarddata))
+                                      "utf-8"))
                     elif (flag == 0):
                         self.request.sendall(
                             bytes("0\nCustomer doesn't exist therefore, we can't update customer's telephone number",
                                   "utf-8"))
 
-                elif (x == "7"):  # print("Received: {}".format(received))
+                elif (x == "7"):
                     self.senddata()
-
 
 class SingletonDatabase(object):
     _instance = None

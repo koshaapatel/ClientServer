@@ -23,7 +23,7 @@ if __name__ == '__main__':
     def receivedata():
         received = str(clientsocket.recv(1024), "utf-8")
         dispatchreceived = received.split("\n")
-        if (dispatchreceived[0] == "1"):  # print("Printing report:")
+        if (dispatchreceived[0] == "1"):
             print(dispatchreceived[1])
             printcustomerdata(dispatchreceived[2])
         elif (dispatchreceived[0] == "0"):
@@ -32,7 +32,7 @@ if __name__ == '__main__':
     def printmessage():
         received = str(clientsocket.recv(1024), "utf-8")
         dispatchreceived = received.split("\n")
-        if (dispatchreceived[0] == "1"):  # print("Printing report:")
+        if (dispatchreceived[0] == "1"):
             print(dispatchreceived[1])
         elif (dispatchreceived[0] == "0"):
             print(dispatchreceived[1])
@@ -51,7 +51,7 @@ if __name__ == '__main__':
                         jsondata = {"1": " ".join(name.lower().split())}
                         record = json.dumps(jsondata)
                         # clientsocket.sendall(bytes(jsondata, "utf-8"))
-                        clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
+                        clientsocket.sendall(bytes(record, "utf-8"))
                         # Receive data from the server and shut down
                         received = str(clientsocket.recv(1024), "utf-8")
                         dispatchreceived = received.split("\n")
@@ -88,11 +88,11 @@ if __name__ == '__main__':
                 address = input("Enter address -> ")
                 telephone = input("Enter telephone number -> ")
                 tempdata = [" ".join(age.lower().split()), " ".join(address.lower().split()),
-                            " ".join(telephone.lower().split())]  # print("TEMPDATA", tempdata)
+                            " ".join(telephone.lower().split())]
 
                 jsondata = {"2": {" ".join(name.lower().split()): tempdata}}
                 record = json.dumps(jsondata)
-                clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
+                clientsocket.sendall(bytes(record, "utf-8"))
 
                 receivedata()
 
@@ -105,8 +105,7 @@ if __name__ == '__main__':
                     if (re.findall("[a-z]", " ".join(name.lower().split())) and name != ''):
                         jsondata = {"3": " ".join(name.lower().split())}
                         record = json.dumps(jsondata)
-                        # clientsocket.sendall(bytes(jsondata, "utf-8"))
-                        clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
+                        clientsocket.sendall(bytes(record, "utf-8"))
 
                         printmessage()
                         break
@@ -135,7 +134,7 @@ if __name__ == '__main__':
 
                 jsondata = {"4": nameage}
                 record = json.dumps(jsondata)
-                clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
+                clientsocket.sendall(bytes(record, "utf-8"))
 
                 printmessage()
 
@@ -154,7 +153,7 @@ if __name__ == '__main__':
 
                 jsondata = {"5": nameaddress}
                 record = json.dumps(jsondata)
-                clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
+                clientsocket.sendall(bytes(record, "utf-8"))
 
                 printmessage()
 
@@ -173,7 +172,7 @@ if __name__ == '__main__':
 
                 jsondata = {"6": nametelephone}
                 record = json.dumps(jsondata)
-                clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
+                clientsocket.sendall(bytes(record, "utf-8"))
 
                 printmessage()
 
@@ -182,7 +181,7 @@ if __name__ == '__main__':
             elif (select == "7"):
                 jsondata = {"7": "print report"}
                 record = json.dumps(jsondata)
-                clientsocket.sendall(bytes(record, "utf-8"))  # print("Sent:     {}".format(record))
+                clientsocket.sendall(bytes(record, "utf-8"))
 
                 receivedata()
 
