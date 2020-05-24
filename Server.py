@@ -214,7 +214,7 @@ class SingletonDatabase(object):
                 #                 " ".join(tempdata[3].lower().split())]
                 self.customer[" ".join(tempdata[0].lower().split())] = customerdata
 
-            elif (tempdata[0] == ''):
+            elif (" ".join(tempdata[0].lower().split()) == ''):
                 print("Database record is skipped")
         file1.close()
 
